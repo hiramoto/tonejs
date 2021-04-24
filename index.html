@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+    <script src="https://unpkg.com/tone"></script>
+    <button id="play-button">Play/Pause</button>
+    <script>
+        (function() {
+            // Membrane Synth https://tonejs.github.io/docs/r12/MembraneSynth
+            const synth = new Tone.MembraneSynth().toMaster();
+            const notes = [
+            "G2",
+            [null, "G2"],
+            null,
+            "Bb2",
+            "C3",
+            "G2",
+            [null, "G2"],
+            null,
+            "F2",
+            "F#2"
+            ];
+        
+            const synthPart = new Tone.Sequence(
+            function(time, note) {
+                synth.triggerAttackRelease(note, "10hz", time);
+            },
+            notes,
+            "8n"
+            );
+        
+            synthPart.start();
+        
+            /**
+             * Play Controls
+             */
+            let playing = false;
+            document.getElementById("play-button").addEventListener("click", function() {
+            if (!playing) {
+                Tone.Transport.start();
+                playing = true;
+            } else {
+                Tone.Transport.stop();
+                playing = false;
+            }
+            });
+        })();
+    </script>
+</body>
+
+
